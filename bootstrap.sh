@@ -4,7 +4,7 @@ app_name='spf13-vim'
 git_uri='https://github.com/raffone/spf13-vim.git'
 git_branch='3.0'
 debug_mode='0'
-fork_maintainer='1'
+fork_maintainer='0'
 
 ############################  BASIC SETUP TOOLS
 msg() {
