@@ -36,19 +36,19 @@ The goal has always been to add functionality without changing all the features,
 
 ## Linux, \*nix, Mac OSX Installation
 
-The easiest way to install spf13-vim is to use our [automatic installer](https://j.mp/spf13-vim3) by simply copying and pasting the following line into a terminal. This will install spf13-vim and backup your existing vim configuration. If you are upgrading from a prior version (before 3.0) this is also the recommended installation.
+The easiest way to install spf13-vim is to use our [automatic installer](https://raw.github.com/raffone/spf13-vim/3.0/bootstrap.sh) by simply copying and pasting the following line into a terminal. This will install spf13-vim and backup your existing vim configuration. If you are upgrading from a prior version (before 3.0) this is also the recommended installation.
 
 *Requires Git 1.7+ and Vim 7.3+*
 
 ```bash
 
-    curl https://j.mp/spf13-vim3 -L > spf13-vim.sh && sh spf13-vim.sh
+    curl https://raw.github.com/raffone/spf13-vim/3.0/bootstrap.sh -L > spf13-vim.sh && sh spf13-vim.sh
 ```
 
 If you have a bash-compatible shell you can run the script directly:
 ```bash
 
-    sh <(curl https://j.mp/spf13-vim3 -L)
+    sh <(curl https://raw.github.com/raffone/spf13-vim/3.0/bootstrap.sh -L)
 ```
 
 ## Installing on Windows
@@ -103,7 +103,7 @@ The simpliest (and safest) way to update is to simply rerun the installer. It wi
 
 ```bash
 
-    curl https://j.mp/spf13-vim3 -L -o - | sh
+    curl https://raw.github.com/raffone/spf13-vim/3.0/bootstrap.sh -L -o - | sh
 
 ```
 
@@ -414,7 +414,7 @@ spf13-vim ships with a few additional syntaxes:
 
 ## Amazing Colors
 
-spf13-vim includes [solarized] and [spf13 vim color pack](https://github.com/spf13/vim-colors/):
+spf13-vim includes [solarized] and [spf13 vim color pack](https://github.com/raffone/vim-colors/):
 
 * ir_black
 * molokai
@@ -435,7 +435,7 @@ Terminal emulator colorschemes:
 
 ## Snippets
 
-It also contains a very complete set of [snippets](https://github.com/spf13/vim-snippets) for use with snipmate or [NeoComplCache].
+It also contains a very complete set of [snippets](https://github.com/raffone/vim-snippets) for use with snipmate or [NeoComplCache].
 
 
 # Intro to VIM
@@ -469,11 +469,11 @@ Here's some tips if you've never used VIM before:
 [Vim]:http://www.vim.org/download.php#pc
 [msysgit]:http://code.google.com/p/msysgit
 [MacVim]:http://code.google.com/p/macvim/
-[spf13-vim]:https://github.com/spf13/spf13-vim
-[contributors]:https://github.com/spf13/spf13-vim/contributors
+[spf13-vim]:https://github.com/raffone/spf13-vim
+[contributors]:https://github.com/raffone/spf13-vim/contributors
 
 [Vundle]:https://github.com/gmarik/vundle
-[PIV]:https://github.com/spf13/PIV
+[PIV]:https://github.com/raffone/PIV
 [NERDCommenter]:https://github.com/scrooloose/nerdcommenter
 [Undotree]:https://github.com/mbbill/undotree
 [NERDTree]:https://github.com/scrooloose/nerdtree
