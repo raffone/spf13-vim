@@ -1,0 +1,93 @@
+" General {
+	set noswapfile
+	set nobackup
+	set nowb
+	set nospell
+	set visualbell
+" }
+
+" Vim UI {
+
+
+	if has('gui_running')
+		let base16colorspace=256
+		color base16-default-bright
+	else
+        let g:solarized_contrast="normal"
+        let g:solarized_visibility="normal"
+        color solarized
+	endif
+
+	set gcr=n:hor10-Cursor/lCursor				" Underline cursor in normal mode
+	set gcr=a:blinkon0							" Disable cursor blink
+
+	hi! SpecialKey guibg=bg gui=underline
+	hi! MatchParen guibg=bg guifg=#fcffea gui=underline
+	hi! clear CursorLineNr guifg=#b0b0b0
+	"hi! CursorLine guifg=#b0b0b0
+ 	"hi! clear SignColumn guifg=#b0b0b0
+ 	"hi! clear LineNr
+ 	"hi! clear Normal
+
+" }
+
+" Formatting {
+	set noexpandtab
+	set listchars=tab:\ \ ,trail:•
+	autocmd FileType css,scss,sass autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+" }
+
+" Key (re)Mappings {
+	map <leader>````    :%s/    /	/g<CR>		" Convert 4 spaces to 1 tab
+	map <leader>```    	:%s/   /	/g<CR>		" Convert 3 spaces to 1 tab
+	map <leader>``      :%s/  /	/g<CR>			" Convert 2 spaces to 1 tab
+" }
+
+" GUI Settings {
+
+	if has('gui_running')
+		"if has("gui_mac")
+			set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
+		"endif
+		if has('gui_macvim')
+			set transparency=0      " Make the window opaque
+		endif
+	endif
+
+" }
+
+" indent_guides {
+	let g:indent_guides_start_level = 1
+	let g:indent_guides_auto_colors = 0
+
+	hi! IndentGuidesOdd  guibg=bg
+	hi! IndentGuidesEven guibg=#202020
+" }
+
+
+" neocomplcache {
+
+	if count(g:spf13_bundle_groups, 'neocomplcache')
+
+		if !exists('g:neocomplcache_disabled_sources_list')
+		  let g:neocomplcache_disabled_sources_list = {}
+		endif
+
+		" Disable dictionary_complete in python filetype.
+		let g:neocomplcache_disabled_sources_list.sass = ['omni_complete']
+		let g:neocomplcache_enable_auto_select = 1
+
+
+
+		let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
+
+		imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<CR><TAB>" : "\<TAB>"
+		smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+	endif
+
+" }
+
+" UnBundle {
+	UnBundle "honza/vim-snippets"
+" }
+
