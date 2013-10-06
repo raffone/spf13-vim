@@ -21,13 +21,9 @@
 	set gcr=n:hor10-Cursor/lCursor				" Underline cursor in normal mode
 	set gcr=a:blinkon0							" Disable cursor blink
 
-	hi! SpecialKey guibg=bg gui=underline
+	"hi! SpecialKey guibg=bg gui=underline
 	hi! MatchParen guibg=bg guifg=#fcffea gui=underline
 	hi! clear CursorLineNr guifg=#b0b0b0
-	"hi! CursorLine guifg=#b0b0b0
- 	"hi! clear SignColumn guifg=#b0b0b0
- 	"hi! clear LineNr
- 	"hi! clear Normal
 
 " }
 
@@ -38,9 +34,104 @@
 " }
 
 " Key (re)Mappings {
+
+
+	" Duplicate line
+	nmap <Leader>dd 	Yp
+	nmap <C-D>			Yp
+
+	" Comment current line
+	nmap <C-S-C>		gcc
+	nmap <Leader>cc 	gcc
+
+
+	" Toggle NerdTree
+	map <Leader>b 		:NERDTreeTabsToggle<CR>
+	map <Leader>bf 		:NERDTreeFind<CR>
+	map <Leader>bc 		:NERDTreeFind<CR>pC
+
+	map <C-B> 			:NERDTreeTabsToggle<CR>
+
+	" TABS
+	map <Leader>tt 		:tabnew<CR>
+	map <Leader>tg 		:tabclose<CR>
+	map <Leader>tr 		:tabp<CR>
+	map <Leader>ty 		:tabn<CR>
+
+	map <C-S-Up>  		:tabnew<CR>
+	map <C-S-Down>  	:tabclose<CR>
+	map <C-S-Left> 		:tabp<CR>
+	map <C-S-Right> 	:tabn<CR>
+
+	" WINDOWS
+
+	map <Leader>ww 		:vs<CR>
+	map <Leader>ws 		:clo<CR>
+	map <Leader>wq 		:wincmd h<CR>
+	map <Leader>we 		:wincmd l<CR>
+	map <Leader>wa 		:wincmd w<CR>
+
+	map <C-A-Up> 		:wincmd k<CR>
+	map <C-A-Down> 		:wincmd j<CR>
+	map <C-A-Left> 		:wincmd h<CR>
+	map <C-A-Right> 	:wincmd l<CR>
+
+	map <C-A-Del> 		:clo<CR>
+	map <C-A-Home> 		:ZoomWin<CR>
+
+	map <C-A-PageUp> 	:vs<CR>
+	map <C-A-PageDown> 	:sp<CR>
+
+
+	" Cerca
+	map <C-F> 			:Ack<Space>
+	map <C-S-F> 		:%s///g
+	"map <C-S-F> 		<F4>
+
+
+	" ctrlp.vim
+	let g:ctrlp_map = ''
+	map <Leader>p 		:CtrlP<CR>
+	map <Leader>pp 		:CtrlP .<CR>
+	map <C-P> 			:CtrlP .<CR>
+
+	" Switch buffer
+
+	" map <Leader>pv 		:bnext<cr>
+	" map <Leader>bn 		:bprevious<cr>
+	" map <Leader>bb 		:bd<cr>
+
+	" map <C-Tab> 		:bnext<cr>
+	" map <C-S-Tab> 		:bprevious<cr>
+
+	" Refresh browser
+	"map <f5> 			:RRB<CR>
+
+	" Reindent
+	map <F8> 			mzgg=G`z<CR>
+
+	" Convert spaces to tabs
+	" map <leader>````	:%s/    /	/g<CR>
+	" map <leader>``		:%s/  /	/g<CR>
+
+	" Fold current block
+	" map <F9> za
+	" nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+	" vnoremap <Space> zf
+
+	" Toggle paste indent
+	" nnoremap <F5> :set invpaste paste?<CR>
+	" set pastetoggle=<F5>
+
+	" Search current selected text
+	vmap <C-S-G> 		yq/p<cr>
+
 	map <leader>````    :%s/    /	/g<CR>		" Convert 4 spaces to 1 tab
 	map <leader>```    	:%s/   /	/g<CR>		" Convert 3 spaces to 1 tab
 	map <leader>``      :%s/  /	/g<CR>			" Convert 2 spaces to 1 tab
+
+
+
 " }
 
 " GUI Settings {
@@ -73,11 +164,8 @@
 		  let g:neocomplcache_disabled_sources_list = {}
 		endif
 
-		" Disable dictionary_complete in python filetype.
 		let g:neocomplcache_disabled_sources_list.sass = ['omni_complete']
 		let g:neocomplcache_enable_auto_select = 1
-
-
 
 		let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
 
@@ -89,5 +177,6 @@
 
 " UnBundle {
 	UnBundle "honza/vim-snippets"
+	UnBundle "majutsushi/tagbar"
 " }
 
