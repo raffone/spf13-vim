@@ -832,6 +832,7 @@
     " }
 
     " Initialize directories {
+    if !exists('g:airline_powerline_fonts')
     function! InitializeDirectories()
         let parent = $HOME
         let prefix = 'vim'
@@ -872,6 +873,7 @@
         endfor
     endfunction
     call InitializeDirectories()
+    endif
     " }
 
     " Initialize NERDTree as needed {
