@@ -129,6 +129,10 @@ create_symlinks() {
         ln -sf "$endpath/.vimrc.before.fork" "$HOME/.vimrc.before.fork"
     fi
 
+    if [ -e "$endpath/.gvimrc" ]; then
+        ln -sf "$endpath/.gvimrc" "$HOME/.gvimrc"
+    fi
+
     if [ ! -d "$endpath/.vim/bundle" ]; then
         mkdir -p "$endpath/.vim/bundle"
     fi
