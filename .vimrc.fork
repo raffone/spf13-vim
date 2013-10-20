@@ -4,6 +4,7 @@
 	set nowb
 	set nospell
 	set visualbell
+	set autowrite
 " }
 
 " Vim UI {
@@ -18,8 +19,8 @@
         color solarized
 	endif
 
-	set gcr=n:hor10-Cursor/lCursor				" Underline cursor in normal mode
-	set gcr=a:blinkon0							" Disable cursor blink
+	"set gcr=n:hor10-Cursor/lCursor				" Underline cursor in normal mode
+	"set gcr=a:blinkon0							" Disable cursor blink
 
 	"hi! SpecialKey guibg=bg gui=underline
 	hi! MatchParen guibg=bg guifg=#fcffea gui=underline
@@ -28,109 +29,132 @@
 " }
 
 " Formatting {
-	set noexpandtab
-	set listchars=tab:\ \ ,trail:•
-	autocmd FileType css,scss,sass autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+
+    set shiftwidth=2                " Use indents of 4 spaces
+    set tabstop=2                   " An indentation every four columns
+    set softtabstop=2               " Let backspace delete indent
+	set timeoutlen=1000 ttimeoutlen=0
+
 " }
 
 " Key (re)Mappings {
 
-
-	" Duplicate line
-	nmap <Leader>dd 	Yp
-	nmap <C-D>			Yp
+    " Duplicate line
+	nnoremap <Leader>dd 	Yp
+	nnoremap <C-D>			Yp
 
 	" Comment current line
-	nmap <C-S-C>		gcc
-	nmap <Leader>cc 	gcc
+	nnoremap <C-S-C>		gcc
+	nnoremap <Leader>cc 	gcc
 
 
-	" Toggle NerdTree
-	map <Leader>b 		:NERDTreeTabsToggle<CR>
-	map <Leader>bf 		:NERDTreeFind<CR>
-	map <Leader>bc 		:NERDTreeFind<CR>pC
-
-	map <C-B> 			:NERDTreeTabsToggle<CR>
-
+"" 	" Toggle NerdTree
+"" 	map <Leader>b 		:NERDTreeTabsToggle<CR>
+"" 	map <Leader>bf 		:NERDTreeFind<CR>
+"" 	map <Leader>bc 		:NERDTreeFind<CR>pC
+""
+"" 	map <C-B> 			:NERDTreeTabsToggle<CR>
+""
 	" TABS
-	map <Leader>tt 		:tabnew<CR>
-	map <Leader>tg 		:tabclose<CR>
-	map <Leader>tr 		:tabp<CR>
-	map <Leader>ty 		:tabn<CR>
+	nnoremap <Leader>tt 		:tabnew<CR>
+	nnoremap <Leader>tg 		:tabclose<CR>
+	nnoremap <Leader>tr 		:tabp<CR>
+	nnoremap <Leader>ty 		:tabn<CR>
 
-	map <C-S-Up>  		:tabnew<CR>
-	map <C-S-Down>  	:tabclose<CR>
-	map <C-S-Left> 		:tabp<CR>
-	map <C-S-Right> 	:tabn<CR>
+	nnoremap <C-S-Up>  			:tabnew<CR>
+	nnoremap <C-S-Down>  		:tabclose<CR>
+	nnoremap <D-A-Left> 		:tabp<CR>
+	nnoremap <D-A-Right> 		:tabn<CR>
 
-	" WINDOWS
+ 	" WINDOWS
 
-	map <Leader>ww 		:vs<CR>
-	map <Leader>ws 		:clo<CR>
-	map <Leader>wq 		:wincmd h<CR>
-	map <Leader>we 		:wincmd l<CR>
-	map <Leader>wa 		:wincmd w<CR>
+ 	nnoremap <Leader>ww 		:vs<CR>
+ 	nnoremap <Leader>ws 		:clo<CR>
+ 	nnoremap <Leader>wq 		:wincmd h<CR>
+ 	nnoremap <Leader>we 		:wincmd l<CR>
+ 	nnoremap <Leader>wa 		:wincmd w<CR>
 
-	map <C-A-Up> 		:wincmd k<CR>
-	map <C-A-Down> 		:wincmd j<CR>
-	map <C-A-Left> 		:wincmd h<CR>
-	map <C-A-Right> 	:wincmd l<CR>
+ 	nnoremap <C-A-Up> 			:wincmd k<CR>
+ 	nnoremap <C-A-Down> 		:wincmd j<CR>
+ 	nnoremap <C-A-Left> 		:wincmd h<CR>
+ 	nnoremap <C-A-Right> 		:wincmd l<CR>
 
-	map <C-A-Del> 		:clo<CR>
-	map <C-A-Home> 		:ZoomWin<CR>
+ 	nnoremap <C-A-Del> 			:clo<CR>
+ 	nnoremap <C-A-Home> 		:ZoomWin<CR>
 
-	map <C-A-PageUp> 	:vs<CR>
-	map <C-A-PageDown> 	:sp<CR>
+ 	nnoremap <C-A-PageUp> 		:vs<CR>
+ 	nnoremap <C-A-PageDown> 	:sp<CR>
+
+""
+"" 	" Cerca
+
+	nnoremap <D-f> 			/
+ 	nnoremap <D-F> 			:Ack<Space>
+
+"" 	map <C-S-F> 		:%s///g
+"" 	"map <C-S-F> 		<F4>
+""
+""
+
+ 	" ctrlp.vim
+
+ 	" let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
+
+ 	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix\|NERD'
+	" let g:ctrlp_map = '<c-p>'
+	" let g:ctrlp_cmd = 'CtrlPLastMode'
+
+ 	nnoremap <Leader>p 		:CtrlP .<CR>
+ 	"nnoremap <Leader>p 		:CtrlPLastMode<CR>
+	"nnoremap <D-p> 			:CtrlPLastMode<CR>
+
+    "nnoremap <silent> <D-t> :CtrlP<CR>
+    "nnoremap <silent> <D-r> :CtrlPMRU<CR>
+
+""  map <D-r> 			:CtrlPLastMode<CR>
 
 
-	" Cerca
-	map <C-F> 			:Ack<Space>
-	map <C-S-F> 		:%s///g
-	"map <C-S-F> 		<F4>
+""
+"" 	" Switch buffer
+""
+"" 	" map <Leader>pv 		:bnext<cr>
+"" 	" map <Leader>bn 		:bprevious<cr>
+"" 	" map <Leader>bb 		:bd<cr>
+""
+"" 	" map <C-Tab> 		:bnext<cr>
+"" 	" map <C-S-Tab> 		:bprevious<cr>
+""
+"" 	" Refresh browser
+"" 	"map <f5> 			:RRB<CR>
+""
+"" 	" Reindent
+"" 	map <F8> 			mzgg=G`z<CR>
+""
+"" 	" Convert spaces to tabs
+"" 	" map <leader>````	:%s/    /	/g<CR>
+"" 	" map <leader>``		:%s/  /	/g<CR>
+""
+ 	" Fold current block
+ 	" map <F9> za
+	nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+	vnoremap <Space> zf
 
+"" 	" Toggle paste indent
+"" 	" nnoremap <F5> :set invpaste paste?<CR>
+"" 	" set pastetoggle=<F5>
 
-	" ctrlp.vim
-	let g:ctrlp_map = ''
-	map <Leader>p 		:CtrlP<CR>
-	map <Leader>pp 		:CtrlP .<CR>
-	map <C-P> 			:CtrlP .<CR>
-
-	" Switch buffer
-
-	" map <Leader>pv 		:bnext<cr>
-	" map <Leader>bn 		:bprevious<cr>
-	" map <Leader>bb 		:bd<cr>
-
-	" map <C-Tab> 		:bnext<cr>
-	" map <C-S-Tab> 		:bprevious<cr>
-
-	" Refresh browser
-	"map <f5> 			:RRB<CR>
-
-	" Reindent
-	map <F8> 			mzgg=G`z<CR>
-
-	" Convert spaces to tabs
-	" map <leader>````	:%s/    /	/g<CR>
-	" map <leader>``		:%s/  /	/g<CR>
-
-	" Fold current block
-	" map <F9> za
-	" nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-	" vnoremap <Space> zf
-
-	" Toggle paste indent
-	" nnoremap <F5> :set invpaste paste?<CR>
-	" set pastetoggle=<F5>
-
-	" Search current selected text
+ 	" Search current selected text
 	vmap <C-S-G> 		yq/p<cr>
 
-	map <leader>````    :%s/    /	/g<CR>		" Convert 4 spaces to 1 tab
-	map <leader>```    	:%s/   /	/g<CR>		" Convert 3 spaces to 1 tab
-	map <leader>``      :%s/  /	/g<CR>			" Convert 2 spaces to 1 tab
+""
+"" 	map <leader>````    :%s/    /	/g<CR>		" Convert 4 spaces to 1 tab
+"" 	map <leader>```    	:%s/   /	/g<CR>		" Convert 3 spaces to 1 tab
+"" 	map <leader>``      :%s/  /	/g<CR>			" Convert 2 spaces to 1 tab
 
-
+  " Allways start from the beginning of a word on change and delete
+	noremap cw 	bcw
+	noremap dw 	bdw
+	nnoremap Y Y
 
 " }
 
@@ -179,4 +203,3 @@
 	UnBundle "honza/vim-snippets"
 	UnBundle "majutsushi/tagbar"
 " }
-
