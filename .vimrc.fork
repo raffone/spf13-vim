@@ -1,30 +1,42 @@
 " General {
-	set noswapfile
-	set nobackup
-	set nowb
 	set nospell
 	set visualbell
-	set autowrite
+	set synmaxcol=2048
+	set noesckeys
+	set timeoutlen=1000 ttimeoutlen=0
+
+	au FocusLost * :wa
+	au FocusLost,TabLeave * call feedkeys("\<Esc>l")
+
+	let sessionman_save_on_exit = 1
+	let g:ruby_path = system('rvm current')
+	let g:gitgutter_eager = 0
+
 " }
 
 " Vim UI {
 
+	" [ Set theme ]------------------------------------------------------------
 
 	if has('gui_running')
+		set transparency=4
+		set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
+
 		let base16colorspace=256
 		color base16-default-bright
+
+		hi! MatchParen guibg=bg guifg=#fcffea gui=underline
+		hi! CursorLineNr guifg=#b6b6b6
+		hi! Visual guibg=#505050
 	else
-        let g:solarized_contrast="normal"
-        let g:solarized_visibility="normal"
-        color solarized
+       	color base16-default
 	endif
 
-	"set gcr=n:hor10-Cursor/lCursor				" Underline cursor in normal mode
-	"set gcr=a:blinkon0							" Disable cursor blink
+	" [ Cursors ]--------------------------------------------------------------
 
-	"hi! SpecialKey guibg=bg gui=underline
-	hi! MatchParen guibg=bg guifg=#fcffea gui=underline
-	hi! clear CursorLineNr guifg=#b0b0b0
+	set gcr=n:hor1-blinkon0
+	set gcr+=c-v:blinkon0
+	set gcr+=i-ci:ver1-blinkwait600-blinkon600-blinkoff600
 
 " }
 
@@ -33,40 +45,109 @@
     set shiftwidth=2                " Use indents of 4 spaces
     set tabstop=2                   " An indentation every four columns
     set softtabstop=2               " Let backspace delete indent
-	set timeoutlen=1000 ttimeoutlen=0
 
+	function! TabToggle()
+	  if &expandtab
+	    set noexpandtab
+	    echo "Indent with Tabs"
+	  else
+	    set expandtab
+	    echo "Indent with Spaces"
+	  endif
+	endfunction
+
+	nmap <F9> mz:execute TabToggle()<CR>'z
+
+    autocmd FileType css,html,sass,scss autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 " }
 
 " Key (re)Mappings {
 
-    " Duplicate line
-	nnoremap <Leader>dd 	Yp
-	nnoremap <C-D>			Yp
+	" [ Prevent escape from moving the cursor ]--------------------------------
 
-	" Comment current line
-	nnoremap <C-S-C>		gcc
-	nnoremap <Leader>cc 	gcc
+	inoremap <silent> <Esc>		<Esc>`^
+
+	" [ Save and exit from normal mode ]---------------------------------------
+
+	nnoremap <D-s> 				:w<CR>
+	inoremap <D-s> 				<Esc>:w<CR>`^
+
+	" [ Allways start from start of word ]-------------------------------------
+
+	noremap cw 					lbcw
+	noremap dw 					lbdw
+
+	nnoremap yw 				lbyw
+	nnoremap Y 					Y
+
+	" [ Select lines ]---------------------------------------------------------
+
+	nnoremap <S-Right> 			vl
+	nnoremap <S-Left> 			vh
+	nnoremap <S-Up> 			vk
+	nnoremap <S-Down> 			vj
 
 
-"" 	" Toggle NerdTree
-"" 	map <Leader>b 		:NERDTreeTabsToggle<CR>
-"" 	map <Leader>bf 		:NERDTreeFind<CR>
-"" 	map <Leader>bc 		:NERDTreeFind<CR>pC
-""
-"" 	map <C-B> 			:NERDTreeTabsToggle<CR>
-""
-	" TABS
+	nnoremap <D-S-Right> 		v$
+	nnoremap <D-S-Left> 		v^
+
+	inoremap <S-Right> 			<Esc>vl
+	inoremap <S-Left> 			<Esc>vh
+	inoremap <D-S-Right> 		<Esc>v$
+	inoremap <D-S-Left> 		<Esc>v^
+
+	nnoremap <A-S-Left> 		evb
+	inoremap <A-S-Left> 		<Esc>evb
+
+
+	" [ Move lines ]-----------------------------------------------------------
+
+	nnoremap <A-Down> 			:m .+1<CR>==
+	nnoremap <A-Up> 			:m .-2<CR>==
+
+	inoremap <A-Down> 			<Esc>:m .+1<CR>==gi
+	inoremap <A-Up> 			<Esc>:m .-2<CR>==gi
+
+	vnoremap <A-Down> 			:m '>+1<CR>gv=gv
+	vnoremap <A-Up> 			:m '<-2<CR>gv=gv
+
+    " [ Duplicate lines ]------------------------------------------------------
+
+	nnoremap <Leader>dd 		Yp
+
+	nnoremap <D-d>				Yp
+	vnoremap <D-d>				yp
+	inoremap <D-d>				<Esc>Ypi
+
+	" [ Sort lines ]-----------------------------------------------------------
+
+	vnoremap <F5> 				:sort<CR>
+
+    " [ Delete lines ]---------------------------------------------------------
+
+	nnoremap <D-Del> 			D
+	inoremap <D-Del> 			<Esc>Di
+
+	nnoremap <D-BS> 			ld0
+	inoremap <D-Del> 			<Esc>ld0
+
+	" [ Multiple lines ]-------------------------------------------------------
+
+	nnoremap <Leader>gg			:MultipleCursorsFind <C-r><C-w><CR>
+
+	" [ TABS ]-----------------------------------------------------------------
+
 	nnoremap <Leader>tt 		:tabnew<CR>
 	nnoremap <Leader>tg 		:tabclose<CR>
 	nnoremap <Leader>tr 		:tabp<CR>
 	nnoremap <Leader>ty 		:tabn<CR>
 
-	nnoremap <C-S-Up>  			:tabnew<CR>
-	nnoremap <C-S-Down>  		:tabclose<CR>
+	nnoremap <D-A-Up>  			:tabnew<CR>
+	nnoremap <D-A-Down>  		:tabclose<CR>
 	nnoremap <D-A-Left> 		:tabp<CR>
 	nnoremap <D-A-Right> 		:tabn<CR>
 
- 	" WINDOWS
+ 	" [ WINDOWS ]--------------------------------------------------------------
 
  	nnoremap <Leader>ww 		:vs<CR>
  	nnoremap <Leader>ws 		:clo<CR>
@@ -80,126 +161,120 @@
  	nnoremap <C-A-Right> 		:wincmd l<CR>
 
  	nnoremap <C-A-Del> 			:clo<CR>
- 	nnoremap <C-A-Home> 		:ZoomWin<CR>
+ 	" nnoremap <C-A-Home> 		:ZoomWin<CR>
 
  	nnoremap <C-A-PageUp> 		:vs<CR>
  	nnoremap <C-A-PageDown> 	:sp<CR>
 
-""
-"" 	" Cerca
+	" [ Cerca ]----------------------------------------------------------------
 
-	nnoremap <D-f> 			/
- 	nnoremap <D-F> 			:Ack<Space>
+	" Search in file
+	nnoremap <D-f> 				/
 
-"" 	map <C-S-F> 		:%s///g
-"" 	"map <C-S-F> 		<F4>
-""
-""
+	" Search inside project
+ 	nnoremap <D-F> 				:Ack<Space>
 
- 	" ctrlp.vim
+	" Search current selected text
+	vnoremap <C-S-G>			yq/p<cr>
 
- 	" let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
+ 	" [ ctrlp.vim ]------------------------------------------------------------
 
  	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix\|NERD'
-	" let g:ctrlp_map = '<c-p>'
-	" let g:ctrlp_cmd = 'CtrlPLastMode'
+	let g:ctrlp_map = ''
+	let g:ctrlp_custom_ignore = {
+    	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    	\ 'file': '\v\.(exe|so|dll)$',
+    	\ 'node': '\v\(node_modules)$',
+    	\ }
 
- 	nnoremap <Leader>p 		:CtrlP .<CR>
- 	"nnoremap <Leader>p 		:CtrlPLastMode<CR>
-	"nnoremap <D-p> 			:CtrlPLastMode<CR>
-
-    "nnoremap <silent> <D-t> :CtrlP<CR>
-    "nnoremap <silent> <D-r> :CtrlPMRU<CR>
-
-""  map <D-r> 			:CtrlPLastMode<CR>
+ 	nnoremap <silent> <Leader>p :CtrlP .<CR>
+	nnoremap <silent> <D-p> 	:CtrlP .<CR>
+	nnoremap <silent> <C-p> 	:CtrlP .<CR>
 
 
-""
-"" 	" Switch buffer
-""
-"" 	" map <Leader>pv 		:bnext<cr>
-"" 	" map <Leader>bn 		:bprevious<cr>
-"" 	" map <Leader>bb 		:bd<cr>
-""
-"" 	" map <C-Tab> 		:bnext<cr>
-"" 	" map <C-S-Tab> 		:bprevious<cr>
-""
-"" 	" Refresh browser
-"" 	"map <f5> 			:RRB<CR>
-""
-"" 	" Reindent
-"" 	map <F8> 			mzgg=G`z<CR>
-""
-"" 	" Convert spaces to tabs
-"" 	" map <leader>````	:%s/    /	/g<CR>
-"" 	" map <leader>``		:%s/  /	/g<CR>
-""
- 	" Fold current block
+   	" [ Switch buffer ]--------------------------------------------------------
+
+   	" map <Leader>pv 		:bnext<cr>
+   	" map <Leader>bn 		:bprevious<cr>
+   	" map <Leader>bb 		:bd<cr>
+
+   	" map <C-Tab> 			:bnext<cr>
+   	" map <C-S-Tab> 		:bprevious<cr>
+
+   	" [ Refresh browser ]------------------------------------------------------
+   	" map <f5> 				:RRB<CR>
+
+   	" [ Reindent ]-------------------------------------------------------------
+   	" map <F8> 				mzgg=G`z<CR>
+
+   	" [ Convert spaces to tabs ]-----------------------------------------------
+   	" map <leader>````		:%s/    /	/g<CR>
+   	" map <leader>``		:%s/  /	/g<CR>
+
+ 	" [ Fold current block ]---------------------------------------------------
  	" map <F9> za
-	nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-	vnoremap <Space> zf
+	" nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+	" vnoremap <Space> zf
 
-"" 	" Toggle paste indent
-"" 	" nnoremap <F5> :set invpaste paste?<CR>
-"" 	" set pastetoggle=<F5>
-
- 	" Search current selected text
-	vmap <C-S-G> 		yq/p<cr>
-
-""
-"" 	map <leader>````    :%s/    /	/g<CR>		" Convert 4 spaces to 1 tab
-"" 	map <leader>```    	:%s/   /	/g<CR>		" Convert 3 spaces to 1 tab
-"" 	map <leader>``      :%s/  /	/g<CR>			" Convert 2 spaces to 1 tab
-
-  " Allways start from the beginning of a word on change and delete
-	noremap cw 	bcw
-	noremap dw 	bdw
-	nnoremap Y Y
-
-" }
-
-" GUI Settings {
-
-	if has('gui_running')
-		"if has("gui_mac")
-			set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
-		"endif
-		if has('gui_macvim')
-			set transparency=0      " Make the window opaque
-		endif
-	endif
+ 	" [ Toggle paste indent ]--------------------------------------------------
+ 	set pastetoggle=<F6>
 
 " }
 
 " indent_guides {
-	let g:indent_guides_start_level = 1
-	let g:indent_guides_auto_colors = 0
-
-	hi! IndentGuidesOdd  guibg=bg
-	hi! IndentGuidesEven guibg=#202020
+	let g:indent_guides_color_change_percent = 5
 " }
 
 
-" neocomplcache {
+" " neocomplcache {
+"
+" 	if count(g:spf13_bundle_groups, 'neocomplcache')
+" 		let g:neocomplcache_enable_auto_select = 1
+" 		let g:neocomplcache_enable_cursor_hold_i = 1
+" 		let g:neocomplcache_enable_insert_char_pre = 1
+"         let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
+"
+"
+" 		imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" 			\ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
+" 			\ "\<CR><TAB>" : "\<TAB>"
+" 		smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" 			\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" 	endif
+"
+" " }
 
-	if count(g:spf13_bundle_groups, 'neocomplcache')
+" neocomplete {
 
-		if !exists('g:neocomplcache_disabled_sources_list')
-		  let g:neocomplcache_disabled_sources_list = {}
-		endif
+ 	if count(g:spf13_bundle_groups, 'neocomplete')
 
-		let g:neocomplcache_disabled_sources_list.sass = ['omni_complete']
-		let g:neocomplcache_enable_auto_select = 1
+		let g:neocomplete#enable_auto_select = 1
+ 		let g:neocomplete#enable_cursor_hold_i = 1
+ 		let g:neocomplete#enable_insert_char_pre = 1
 
 		let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
 
-		imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<CR><TAB>" : "\<TAB>"
-		smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-	endif
+		imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+			\ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
+			\ "\<CR><C-k>" : "\<TAB>"
+
+ 	endif
 
 " }
 
+
 " UnBundle {
+
 	UnBundle "honza/vim-snippets"
 	UnBundle "majutsushi/tagbar"
+	UnBundle "mattn/webapi-vim"
+	UnBundle "mattn/gist-vim"
+	UnBundle "mbbill/undotree"
+	UnBundle "godlygeek/csapprox"
+	UnBundle "vim-colorschemes"
+	UnBundle "spf13/vim-colors"
+	UnBundle "spf13/vim-preview"
+	UnBundle "tpope/vim-cucumber"
+	UnBundle "quentindecock/vim-cucumber-align-pipes"
+
 " }

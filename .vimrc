@@ -137,11 +137,13 @@
     endif
 
     " Setting up the directories {
-        set backup                  " Backups are nice ...
-        if has('persistent_undo')
-            set undofile                " So is persistent undo ...
-            set undolevels=1000         " Maximum number of changes that can be undone
-            set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
+        if !exists('g:spf13_initialize_directories')
+            set backup                  " Backups are nice ...
+            if has('persistent_undo')
+                set undofile                " So is persistent undo ...
+                set undolevels=1000         " Maximum number of changes that can be undone
+                set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
+            endif
         endif
 
         " To disable views add the following to your .vimrc.before.local file:
@@ -347,10 +349,10 @@
 
     " Fix home and end keybindings for screen, particularly on mac
     " - for some reason this fixes the arrow keys too. huh.
-    map [F $
-    imap [F $
-    map [H g0
-    imap [H g0
+    "map [F $
+    "imap [F $
+    "map [H g0
+    "imap [H g0
 
     " For when you forget to sudo.. Really Write the file.
     cmap w!! w !sudo tee % >/dev/null
@@ -832,7 +834,7 @@
     " }
 
     " Initialize directories {
-    if !exists('g:airline_powerline_fonts')
+    if !exists('g:spf13_initialize_directories')
     function! InitializeDirectories()
         let parent = $HOME
         let prefix = 'vim'
