@@ -225,25 +225,6 @@
 	let g:indent_guides_color_change_percent = 5
 " }
 
-
-" " neocomplcache {
-"
-" 	if count(g:spf13_bundle_groups, 'neocomplcache')
-" 		let g:neocomplcache_enable_auto_select = 1
-" 		let g:neocomplcache_enable_cursor_hold_i = 1
-" 		let g:neocomplcache_enable_insert_char_pre = 1
-"         let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
-"
-"
-" 		imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" 			\ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
-" 			\ "\<CR><TAB>" : "\<TAB>"
-" 		smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" 			\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" 	endif
-"
-" " }
-
 " neocomplete {
 
  	if count(g:spf13_bundle_groups, 'neocomplete')
@@ -261,7 +242,6 @@
  	endif
 
 " }
-
 
 " UnBundle {
 
