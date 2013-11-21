@@ -1,0 +1,7 @@
+ln -sf ~/forks/spf13-vim/.vimrc ~/.vimrc
+ln -sf ~/forks/spf13-vim/.vimrc.bundles     ~/.vimrc.bundles
+ln -sf ~/forks/spf13-vim/.vimrc.before      ~/.vimrc.before
+ln -sf ~/forks/spf13-vim/.vimrc.fork             ~/.vimrc.fork
+ln -sf ~/forks/spf13-vim/.vimrc.bundles.fork     ~/.vimrc.bundles.fork
+ln -sf ~/forks/spf13-vim/.vimrc.before.fork      ~/.vimrc.before.fork
+ln -sf ~/forks/spf13-vim/.gvimrc            	 ~/.gvimrc
