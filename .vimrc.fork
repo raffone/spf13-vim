@@ -11,7 +11,7 @@
 	set linebreak
 	set wrap
 
-	au FocusLost * :wa
+	"au FocusLost * :wa
 	au FocusLost,TabLeave * call feedkeys("\<Esc>l")
 
 	let sessionman_save_on_exit = 1
@@ -39,7 +39,9 @@
 		hi! CursorLineNr guifg=#b6b6b6
 		hi! Visual guibg=#505050
 	else
-       	color base16-default
+        let g:solarized_contrast="normal"
+        let g:solarized_visibility="normal"
+       	"color base16-default
 	endif
 
 	" [ Cursors ]--------------------------------------------------------------
@@ -68,7 +70,7 @@
 
 	nmap <F9> mz:execute TabToggle()<CR>'z
 
-    autocmd FileType css,html,sass,scss autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+    autocmd FileType css,html,sass,scss,coffee autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 " }
 
 " Key (re)Mappings {
@@ -83,12 +85,17 @@
 
 	" [ Open file under cursor ]-----------------------------------------------
 
-	nmap <A-CR> gf
-	nmap <A-S-CR> :vertical wincmd f<CR>
+	nmap <C-CR> gf
+	nmap <C-S-CR> :vertical wincmd f<CR>
 
 	" [ Close html tag ]-------------------------------------------------------
 
+	nnoremap <D-≥> 				i<lt>/<C-X><C-O><Esc>
 	inoremap <D-≥> 				<lt>/<C-X><C-O>
+
+	" [ Use enter for insert ]-------------------------------------------------
+
+	nnoremap <CR> 				i<CR><CR><Esc>k$i
 
 	" [ Save and exit from normal mode ]---------------------------------------
 
@@ -242,17 +249,19 @@
  	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix\|NERD'
 	let g:ctrlp_map = ''
 
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn|\node_modules$',
-        \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc|\.png$\|\.gif$\|\.jpg|\.jepg$' }
+	set wildignore+=*/node_modules/*
+	set wildignore+=*/tmp/*
+	set wildignore+=*/db/*
+	set wildignore+=*/vendor/*
+	set wildignore+=*.png,*.gif,*.jpg,*.jpeg
 
 	let g:ctrlp_prompt_mappings = {
 	    \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
-	    \ 'AcceptSelection("t")': ['<c-x>', '<c-cr>', '<a-cr>', '<s-cr>', '<c-s>'],
+	    \ 'AcceptSelection("v")': ['<c-x>', '<c-cr>', '<a-cr>', '<c-s>'],
+	    \ 'AcceptSelection("t")': ['<s-cr>'],
 	    \ }
 
 	unlet g:ctrlp_user_command
-	let g:ctrlp_user_command = ''
 
  	nnoremap <silent> <Leader>p :CtrlP .<CR>
 	noremap <silent> <D-p> 	:CtrlP .<CR>
@@ -269,7 +278,7 @@
 
  	" [ Fold current block ]---------------------------------------------------
  	" map <F9> za
-	" nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+	nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 	" vnoremap <Space> zf
 
  	" [ Toggle paste indent ]--------------------------------------------------
@@ -307,6 +316,15 @@
 "
 " }
 
+		let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
+
+        " SuperTab like snippets behavior.
+        imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+         \ "\<Plug>(neosnippet_expand_or_jump)"
+         \: pumvisible() ? "\<C-n>" : "\<TAB>"
+        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+         \ "\<Plug>(neosnippet_expand_or_jump)"
+         \: "\<TAB>"
 " neocomplete {
 
  	if count(g:spf13_bundle_groups, 'neocomplete')
@@ -321,15 +339,6 @@
  		"let g:neocomplete#cursor_hold_i_time = 900
  		"let g:neocomplete#enable_insert_char_pre = 1
 
-		let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
-
-        " SuperTab like snippets behavior.
-        imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-         \ "\<Plug>(neosnippet_expand_or_jump)"
-         \: pumvisible() ? "\<C-n>" : "\<TAB>"
-        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-         \ "\<Plug>(neosnippet_expand_or_jump)"
-         \: "\<TAB>"
 
 
         " inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
@@ -370,10 +379,61 @@
 	UnBundle 'vim-colorschemes'
 	UnBundle 'matchit.zip'
 	UnBundle 'amirh/HTML-AutoCloseTag'
-	UnBundle 'scrooloose/syntastic'
+	"UnBundle 'scrooloose/syntastic'
 
 	" Possibile performance droppers
 	UnBundle 'jistr/vim-nerdtree-tabs'
 	UnBundle 'bling/vim-airline'
+	UnBundle 'tpope/vim-fugitive'
 
 " }
+
+
+""	let opt_DimInactiveWin=0
+""	hi Inactive ctermfg=235
+""	fun! ToggleDimInactiveWin()
+""	    if g:opt_DimInactiveWin
+""	        autocmd! DimWindows
+""	        windo syntax clear Inactive
+""	    else
+""	        windo syntax region Inactive start='^' end='$'
+""	        syntax clear Inactive
+""	        augroup DimWindows
+""	            autocmd BufEnter * syntax clear Inactive
+""	            autocmd BufLeave * syntax region Inactive start='^' end='$'
+""	        augroup end
+""	    en
+""	    let g:opt_DimInactiveWin=!g:opt_DimInactiveWin
+""	endfun
+
+" Dim inactive windows using 'colorcolumn' setting
+" This tends to slow down redrawing, but is very useful.
+" Based on https://groups.google.com/d/msg/vim_use/IJU-Vk-QLJE/xz4hjPjCRBUJ
+" XXX: this will only work with lines containing text (i.e. not '~')
+" from
+if exists('+colorcolumn')
+  function! s:DimInactiveWindows()
+    for i in range(1, tabpagewinnr(tabpagenr(), '$'))
+      let l:range = ""
+      if i != winnr()
+        if &wrap
+         " HACK: when wrapping lines is enabled, we use the maximum number
+         " of columns getting highlighted. This might get calculated by
+         " looking for the longest visible line and using a multiple of
+         " winwidth().
+         let l:width=256 " max
+        else
+         let l:width=winwidth(i)
+        endif
+        let l:range = join(range(1, l:width), ',')
+      endif
+      call setwinvar(i, '&colorcolumn', l:range)
+    endfor
+  endfunction
+  augroup DimInactiveWindows
+    au!
+    au WinEnter * call s:DimInactiveWindows()
+    au WinEnter * set cursorline
+    au WinLeave * set nocursorline
+  augroup END
+endif

@@ -1,17 +1,23 @@
-let g:spf13_bundle_groups=['general', 'neocomplete', 'programming', 'javascript', 'html', 'misc']
+let g:spf13_bundle_groups=['general', 'programming', 'javascript', 'html', 'misc']
 
 Bundle 'raffone/base16-default-bright'
 Bundle 'raffone/sass-compass-neosnippet'
 Bundle 'raffone/replace'
 
+
 Bundle 'Raimondi/delimitMate'
+Bundle 'chriskempson/base16-vim'
+
+Bundle 'ton/vim-bufsurf'
+Bundle 'vim-scripts/Rename2'
+
+Bundle 'Shougo/neosnippet'
 
 "Bundle 'ervandew/supertab'
 "Bundle 'ervandew/snipmate.vim'
 "Bundle 'snipmate-snippets'
 
-Bundle 'chriskempson/base16-vim'
-"Bundle 'tomasr/molokai'
+" Bundle 'tomasr/molokai'
 " Bundle 'mattn/emmet-vim'
 " Bundle 'vim-scripts/AutoComplPop'
 " Bundle 'moll/vim-bbye'
