@@ -36,19 +36,19 @@ The goal has always been to add functionality without changing all the features,
 
 ## Linux, \*nix, Mac OSX Installation
 
-The easiest way to install spf13-vim is to use our [automatic installer](http://bit.ly/19JryN4) by simply copying and pasting the following line into a terminal. This will install spf13-vim and backup your existing vim configuration. If you are upgrading from a prior version (before 3.0) this is also the recommended installation.
+The easiest way to install spf13-vim is to use our [automatic installer](https://j.mp/spf13-vim3) by simply copying and pasting the following line into a terminal. This will install spf13-vim and backup your existing vim configuration. If you are upgrading from a prior version (before 3.0) this is also the recommended installation.
 
 *Requires Git 1.7+ and Vim 7.3+*
 
 ```bash
 
-    curl http://bit.ly/19JryN4 -L > spf13-vim.sh && sh spf13-vim.sh
+    curl https://j.mp/spf13-vim3 -L > spf13-vim.sh && sh spf13-vim.sh
 ```
 
 If you have a bash-compatible shell you can run the script directly:
 ```bash
 
-    sh <(curl http://bit.ly/19JryN4 -L)
+    sh <(curl https://j.mp/spf13-vim3 -L)
 ```
 
 ## Installing on Windows
@@ -103,7 +103,7 @@ The simpliest (and safest) way to update is to simply rerun the installer. It wi
 
 ```bash
 
-    curl http://bit.ly/19JryN4 -L -o - | sh
+    curl https://j.mp/spf13-vim3 -L -o - | sh
 
 ```
 
@@ -265,7 +265,7 @@ examples.  An asterisk (*) is used to denote the cursor position.
       [123+4*56]/2              cs])        (123+456)/2
       "Look ma, I'm *HTML!"     cs"<q>      <q>Look ma, I'm HTML!</q>
       if *x>3 {                 ysW(        if ( x>3 ) {
-      my $str = *whee!;         vlllls'     my $str = 'whee!';
+      my $str = *whee!;         vllllS'     my $str = 'whee!';
 
 For instance, if the cursor was inside `"foo bar"`, you could type
 `cs"'` to convert the text to `'foo bar'`.
@@ -328,6 +328,7 @@ file
  * `<leader>gb` :Gblame<CR>
  * `<leader>gl` :Glog<CR>
  * `<leader>gp` :Git push<CR>
+ * `<leader>gw` :Gwrite<CR>
  * :Git ___ will pass anything along to git.
 
 ![fugitive image][fugitive-img]
@@ -414,7 +415,7 @@ spf13-vim ships with a few additional syntaxes:
 
 ## Amazing Colors
 
-spf13-vim includes [solarized] and [spf13 vim color pack](https://github.com/raffone/vim-colors/):
+spf13-vim includes [solarized] and [spf13 vim color pack](https://github.com/spf13/vim-colors/):
 
 * ir_black
 * molokai
@@ -435,7 +436,7 @@ Terminal emulator colorschemes:
 
 ## Snippets
 
-It also contains a very complete set of [snippets](https://github.com/raffone/vim-snippets) for use with snipmate or [NeoComplCache].
+It also contains a very complete set of [snippets](https://github.com/spf13/snipmate-snippets) for use with snipmate or [NeoComplCache].
 
 
 # Intro to VIM
@@ -469,11 +470,11 @@ Here's some tips if you've never used VIM before:
 [Vim]:http://www.vim.org/download.php#pc
 [msysgit]:http://code.google.com/p/msysgit
 [MacVim]:http://code.google.com/p/macvim/
-[spf13-vim]:https://github.com/raffone/spf13-vim
-[contributors]:https://github.com/raffone/spf13-vim/contributors
+[spf13-vim]:https://github.com/spf13/spf13-vim
+[contributors]:https://github.com/spf13/spf13-vim/contributors
 
 [Vundle]:https://github.com/gmarik/vundle
-[PIV]:https://github.com/raffone/PIV
+[PIV]:https://github.com/spf13/PIV
 [NERDCommenter]:https://github.com/scrooloose/nerdcommenter
 [Undotree]:https://github.com/mbbill/undotree
 [NERDTree]:https://github.com/scrooloose/nerdtree
