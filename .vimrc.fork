@@ -1,439 +1,283 @@
 " General {
 
-    "set bufhidden=delete
+  "set bufhidden=delete
 
-	set nospell
-	set visualbell
-	set synmaxcol=2048
-	set noesckeys
-	set timeoutlen=1000 ttimeoutlen=0
+  set nospell
+  set visualbell
+  set synmaxcol=2048
+  set noesckeys
+  set timeoutlen=1000 ttimeoutlen=0
 
-	set linebreak
-	set wrap
+  set linebreak
+  set wrap
 
-	"au FocusLost * :wa
-	au FocusLost,TabLeave * call feedkeys("\<Esc>l")
+  "au FocusLost * :wa
+  au FocusLost,TabLeave * call feedkeys("\<Esc>l")
 
-	let sessionman_save_on_exit = 1
-	let g:ruby_path = system('rvm current')
-	let g:gitgutter_eager = 0
+  let sessionman_save_on_exit = 1
 
-	set foldmethod=indent
-	set foldlevel=100
+  set foldmethod=indent
+  set foldlevel=20
+  set foldlevelstart=20
 
 " }
 
 " Vim UI {
 
-	" [ Set theme ]------------------------------------------------------------
+  " [ Set theme ]------------------------------------------------------------
 
-	if has('gui_running')
-		set transparency=0
-		set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
+  if has('gui_running')
+    set transparency=0
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
 
-		let base16colorspace=256
-		color base16-default-bright
-		"color base16-eighties
+    let base16colorspace=256
+    color base16-default-bright
 
-		hi! MatchParen guibg=bg guifg=#fcffea gui=underline
-		hi! CursorLineNr guifg=#b6b6b6
-		hi! Visual guibg=#505050
-	else
-        let g:solarized_contrast="normal"
-        let g:solarized_visibility="normal"
-       	"color base16-default
-	endif
+    hi! MatchParen guibg=bg guifg=#fcffea gui=underline
+    hi! CursorLineNr guifg=#b6b6b6
+    hi! Visual guibg=#505050
+  else
+    let g:solarized_contrast="normal"
+    let g:solarized_visibility="normal"
+  endif
 
-	" [ Cursors ]--------------------------------------------------------------
+  " [ Cursors ]--------------------------------------------------------------
 
-	set gcr=n:hor1-blinkon0
-	set gcr+=c-v:blinkon0
-	set gcr+=i-ci:ver1-blinkwait600-blinkon600-blinkoff600
+  set gcr=n:hor1-blinkon0
+  set gcr+=c-v:blinkon0
+  set gcr+=i-ci:ver1-blinkwait600-blinkon600-blinkoff600
 
 " }
 
 " Formatting {
 
-    set shiftwidth=2                " Use indents of 4 spaces
-    set tabstop=2                   " An indentation every four columns
-    set softtabstop=2               " Let backspace delete indent
+  set shiftwidth=2                " Use indents of 4 spaces
+  set tabstop=2                   " An indentation every four columns
+  set softtabstop=2               " Let backspace delete indent
 
-	function! TabToggle()
-	  if &expandtab
-	    set noexpandtab
-	    echo "Indent with Tabs"
-	  else
-	    set expandtab
-	    echo "Indent with Spaces"
-	  endif
-	endfunction
+  function! TabToggle()
+    if &expandtab
+      set noexpandtab
+      echo "Indent with Tabs"
+    else
+      set expandtab
+      echo "Indent with Spaces"
+    endif
+  endfunction
 
-	nmap <F9> mz:execute TabToggle()<CR>'z
+  nmap <F9> mz:execute TabToggle()<CR>'z
 
-    autocmd FileType css,html,sass,scss,coffee autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+  autocmd FileType css,html,sass,scss,coffee autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 " }
 
 " Key (re)Mappings {
 
-	" [ Prevent escape from moving the cursor ]--------------------------------
+  " [ Prevent escape from moving the cursor ]--------------------------------
 
-	inoremap <silent> <Esc>		<Esc>l
+  "inoremap <silent> <Esc>   <Esc>l
+  "inoremap <silent> <Esc> <C-O>:stopinsert<CR>
+  inoremap <silent> <Esc> <Esc>`^
 
-	"imap <silent> <D-s>			<Esc><Esc>
-	"imap <silent> <A-s>			<Esc><Esc>
-	"imap <silent> <C-s>			<Esc><Esc>
+  " [ Open file under cursor ]-----------------------------------------------
 
-	" [ Open file under cursor ]-----------------------------------------------
+  nmap <C-CR> gf
+  nmap <C-S-CR> :vertical wincmd f<CR>
 
-	nmap <C-CR> gf
-	nmap <C-S-CR> :vertical wincmd f<CR>
+  " [ Close html tag ]-------------------------------------------------------
 
-	" [ Close html tag ]-------------------------------------------------------
+  nnoremap <D-≥>        i<lt>/<C-X><C-O><Esc>
+  inoremap <D-≥>        <lt>/<C-X><C-O>
 
-	nnoremap <D-≥> 				i<lt>/<C-X><C-O><Esc>
-	inoremap <D-≥> 				<lt>/<C-X><C-O>
+  " [ Allways start from start of word ]-------------------------------------
 
-	" [ Use enter for insert ]-------------------------------------------------
+  noremap cw          ciw
+  noremap dw          diw
 
-	nnoremap <CR> 				i<CR><CR><Esc>k$i
+  nnoremap yw         yiw
+  nnoremap Y          Y
 
-	" [ Save and exit from normal mode ]---------------------------------------
+  " [ Quickjump cursor ]-----------------------------------------------------
 
-	" nnoremap <D-s> 				:w<CR>
-	" inoremap <D-s> 					<Esc>
+  nnoremap <A-Right>      w
+  nnoremap <A-Left>       b
 
-	" [ Allways start from start of word ]-------------------------------------
+  " [ Select lines ]---------------------------------------------------------
 
-	noremap cw 					ciw
-	noremap dw 					diw
+  nnoremap <S-Right>      vl
+  nnoremap <S-Left>       vh
+  nnoremap <S-Up>       Vk
+  nnoremap <S-Down>       Vj
+  nnoremap <D-S-Right>    v$
+  nnoremap <D-S-Left>     v^
+  nnoremap <D-S-Down>     ^Vl%
+  nnoremap <A-S-Right>    vw
+  nnoremap <A-S-Left>     vb
 
-	nnoremap yw 				yiw
-	nnoremap Y 					Y
+  vnoremap <S-Up>       k
+  vnoremap <S-Down>       j
+  vnoremap <D-S-Up>       k
+  vnoremap <D-S-Down>     j
+  vnoremap <A-S-Up>       k
+  vnoremap <A-S-Down>     j
+  vnoremap <A-S-Right>    w
+  vnoremap <A-S-Left>     b
 
-	" [ Quickjump cursor ]-----------------------------------------------------
+  inoremap <S-Right>      <Esc>vl
+  inoremap <S-Left>       <Esc>vh
+  inoremap <S-Up>       <Esc>vk
+  inoremap <S-Down>       <Esc>vj
+  inoremap <D-S-Right>    <Esc>v$
+  inoremap <D-S-Left>     <Esc>v^
+  inoremap <D-S-Down>     <Esc>^Vl%
+  inoremap <A-S-Right>    <Esc>vw
+  inoremap <A-S-Left>     <Esc>vb
 
-	nnoremap <A-Right> 			w
-	nnoremap <A-Left> 			b
+  " [ Move lines ]-----------------------------------------------------------
 
-	" [ Select lines ]---------------------------------------------------------
+  nnoremap <A-Enter>      O<Esc>
 
-	nnoremap <S-Right> 			vl
-	nnoremap <S-Left> 			vh
-	nnoremap <S-Up> 			Vk
-	nnoremap <S-Down> 			Vj
-	nnoremap <D-S-Right> 		v$
-	nnoremap <D-S-Left> 		v^
-	nnoremap <D-S-Down> 		^Vl%
-	nnoremap <A-S-Right> 		vw
-	nnoremap <A-S-Left> 		vb
+  nnoremap <D-C-Up>       :m .-2<CR>
+  nnoremap <D-C-Down>     :m .+1<CR>
 
-	vnoremap <S-Up> 			k
-	vnoremap <S-Down> 			j
-	vnoremap <D-S-Up> 			k
-	vnoremap <D-S-Down> 		j
-	vnoremap <A-S-Up> 			k
-	vnoremap <A-S-Down> 		j
-	vnoremap <A-S-Right> 		w
-	vnoremap <A-S-Left> 		b
+  inoremap <D-C-Up>       <Esc>:m .-2<CR>==gi
+  inoremap <D-C-Down>     <Esc>:m .+1<CR>==gi
 
-	inoremap <S-Right> 			<Esc>vl
-	inoremap <S-Left> 			<Esc>vh
-	inoremap <S-Up> 			<Esc>vk
-	inoremap <S-Down> 			<Esc>vj
-	inoremap <D-S-Right> 		<Esc>v$
-	inoremap <D-S-Left> 		<Esc>v^
-	inoremap <D-S-Down> 		<Esc>^Vl%
-	inoremap <A-S-Right> 		<Esc>vw
-	inoremap <A-S-Left> 		<Esc>vb
-
-	" [ Move lines ]-----------------------------------------------------------
-
-	nnoremap <A-Enter> 			O<Esc>
-
-	nnoremap <D-C-Up> 			:m .-2<CR>
-	nnoremap <D-C-Down> 		:m .+1<CR>
-
-	inoremap <D-C-Up> 			<Esc>:m .-2<CR>==gi
-	inoremap <D-C-Down> 		<Esc>:m .+1<CR>==gi
-
-	vnoremap <D-C-Up> 			:m '<-2<CR>gv=gv
-	vnoremap <D-C-Down> 		:m '>+1<CR>gv=gv
+  vnoremap <D-C-Up>       :m '<-2<CR>gv=gv
+  vnoremap <D-C-Down>     :m '>+1<CR>gv=gv
 
     " [ Duplicate lines ]------------------------------------------------------
 
-	nnoremap <Leader>dd 		"zY"zp
+  nnoremap <Leader>dd     "zY"zp
 
-	nnoremap <D-d>				"zY"zp
-	vnoremap <D-d>				"zy"zP
-	inoremap <D-d>				<Esc>"zY"zpi
+  nnoremap <D-d>        "zY"zp
+  vnoremap <D-d>        "zy"zP
+  inoremap <D-d>        <Esc>"zY"zpi
 
-	" [ Sort lines ]-----------------------------------------------------------
+  " [ Sort lines ]-----------------------------------------------------------
 
-	vnoremap <F5> 				:sort<CR>
+  vnoremap <F5>         :sort<CR>
 
     " [ Delete lines ]---------------------------------------------------------
 
-	nnoremap <Del>				"_dl
-	nnoremap <D-Del> 			"_D
-	nnoremap <A-Del> 			"_diw
+  nnoremap <Del>        "_dl
+  nnoremap <D-Del>      "_D
+  nnoremap <A-Del>      "_diw
 
-	inoremap <D-Del> 			<Esc>l"_Di
-	inoremap <A-Del> 			<Esc>viw"_di
+  inoremap <D-Del>      <Esc>l"_Di
+  inoremap <A-Del>      <Esc>viw"_di
 
     " [ Comment lines ]---------------------------------------------------------
 
-	nmap <Leader>cc 			<plug>NERDCommenterToggle
-	vmap <Leader>cc 			<plug>NERDCommenterToggle
+  nmap <Leader>cc       <plug>NERDCommenterToggle
+  vmap <Leader>cc       <plug>NERDCommenterToggle
 
-	" [ Increase/decrease number ]---------------------------------------------
+  " [ Increase/decrease number ]---------------------------------------------
 
-	nnoremap <C-Up> 			<C-a>
-	nnoremap <C-Down> 			<C-x>
+  nnoremap <C-Up>         <C-a>
+  nnoremap <C-Down>       <C-x>
 
-	" [ Indent ]---------------------------------------------------------------
+  " [ Indent ]---------------------------------------------------------------
 
-	nnoremap > 					>>
-	nnoremap < 					<<
+  nnoremap <silent> >     >>
+  nnoremap <silent> <     <<
 
-	" [ Multiple lines ]-------------------------------------------------------
+  " [ Multiple lines ]-------------------------------------------------------
 
-	nnoremap <Leader>gg			:MultipleCursorsFind <C-r><C-w><CR>
+  nnoremap <Leader>gg     :MultipleCursorsFind <C-r><C-w><CR>
 
-	" [ TABS ]-----------------------------------------------------------------
+  " [ TABS ]-----------------------------------------------------------------
 
-	nnoremap <Leader>tt 		:tabnew<CR>
-	nnoremap <Leader>tg 		:tabclose<CR>
-	nnoremap <Leader>tr 		:tabp<CR>
-	nnoremap <Leader>ty 		:tabn<CR>
+  nnoremap <Leader>tt     :tabnew<CR>
+  nnoremap <Leader>tg     :tabclose<CR>
+  nnoremap <Leader>tr     :tabp<CR>
+  nnoremap <Leader>ty     :tabn<CR>
 
-	nnoremap <D-A-Up>  			:tabnew<CR>
-	nnoremap <D-A-Down>  		:tabclose<CR>
-	nnoremap <D-A-Left> 		:tabp<CR>
-	nnoremap <D-A-Right> 		:tabn<CR>
+  nnoremap <D-A-Up>       :tabnew<CR>
+  nnoremap <D-A-Down>     :tabclose<CR>
+  nnoremap <D-A-Left>     :tabp<CR>
+  nnoremap <D-A-Right>    :tabn<CR>
 
- 	" [ WINDOWS ]--------------------------------------------------------------
+  " [ WINDOWS ]--------------------------------------------------------------
 
- 	nnoremap <Leader>ww 		:vs<CR>
- 	nnoremap <Leader>ws 		:clo<CR>
- 	nnoremap <Leader>wq 		:wincmd h<CR>
- 	nnoremap <Leader>we 		:wincmd l<CR>
- 	nnoremap <Leader>wa 		:wincmd w<CR>
+  nnoremap <Leader>ww     :vs<CR>
+  nnoremap <Leader>ws     :clo<CR>
+  nnoremap <Leader>wq     :wincmd h<CR>
+  nnoremap <Leader>we     :wincmd l<CR>
+  nnoremap <Leader>wa     :wincmd w<CR>
 
- 	nnoremap <C-A-Up> 		:wincmd k<CR>
- 	nnoremap <C-A-Down> 		:wincmd j<CR>
- 	nnoremap <C-A-Left> 		:wincmd h<CR>
- 	nnoremap <C-A-Right> 		:wincmd l<CR>
+  nnoremap <C-A-Up>       :wincmd k<CR>
+  nnoremap <C-A-Down>     :wincmd j<CR>
+  nnoremap <C-A-Left>     :wincmd h<CR>
+  nnoremap <C-A-Right>    :wincmd l<CR>
 
- 	"nnoremap <C-A-Del> 			:clo<CR>
- 	" nnoremap <C-A-Home> 		:ZoomWin<CR>
+  "nnoremap <C-A-Del>       :clo<CR>
+  " nnoremap <C-A-Home>     :ZoomWin<CR>
 
- 	nnoremap <C-A-PageUp> 	:vs<CR>
- 	nnoremap <C-A-PageDown> 	:sp<CR>
+  nnoremap <C-A-PageUp>   :vs<CR>
+  nnoremap <C-A-PageDown>   :sp<CR>
 
-	" [ Cerca ]----------------------------------------------------------------
+  " [ Cerca ]----------------------------------------------------------------
 
-	" Search in file
-	nnoremap <D-f> 				/
+  " Search in file
+  nnoremap <D-f>        /
 
-	" Search inside project
- 	nnoremap <D-F> 				:Ack<Space>
+  " Search inside project
+  nnoremap <D-F>        :Ack<Space>
 
-	" Search current selected text
-	vnoremap <C-S-G>			yq/p<cr>
+  " Search current selected text
+  vnoremap <C-S-G>      yq/p<cr>
 
- 	" [ ctrlp.vim ]------------------------------------------------------------
+  " [ ctrlp.vim ]------------------------------------------------------------
 
-	let g:ctrlp_switch_buffer = 0
-	let g:ctrlp_max_depth = 10
-	let g:ctrlp_max_files = 500
- 	let g:ctrlp_reuse_window = 'netrw\|help\|quickfix\|NERD'
-	let g:ctrlp_map = ''
+  let g:ctrlp_switch_buffer = 0
+  let g:ctrlp_max_depth = 10
+  let g:ctrlp_max_files = 500
+  let g:ctrlp_reuse_window = 'netrw\|help\|quickfix\|NERD'
+  let g:ctrlp_map = ''
+  let g:ctrlp_show_hidden = 1
 
-	set wildignore+=*/node_modules/*
-	set wildignore+=*/tmp/*
-	set wildignore+=*/db/*
-	set wildignore+=*/vendor/*
-	set wildignore+=*.png,*.gif,*.jpg,*.jpeg
+  set wildignore+=*.DS_Store
+  set wildignore+=*/db/*
+  set wildignore+=*/node_modules/*
+  set wildignore+=*/.sass-cache/*
+  set wildignore+=*/tmp/*
+  set wildignore+=*/vendor/*
+  set wildignore+=*.png,*.gif,*.jpg,*.jpeg
 
-	let g:ctrlp_prompt_mappings = {
-	    \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
-	    \ 'AcceptSelection("v")': ['<c-x>', '<c-cr>', '<a-cr>', '<c-s>'],
-	    \ 'AcceptSelection("t")': ['<s-cr>'],
-	    \ }
+  let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+    \ 'AcceptSelection("v")': ['<c-x>', '<c-cr>', '<a-cr>', '<c-s>'],
+    \ 'AcceptSelection("t")': ['<s-cr>'],
+    \ }
 
-	unlet g:ctrlp_user_command
+  unlet g:ctrlp_user_command
 
- 	nnoremap <silent> <Leader>p :CtrlP .<CR>
-	noremap <silent> <D-p> 	:CtrlP .<CR>
+  nnoremap <silent> <Leader>p :CtrlP .<CR>
+  noremap <silent> <D-p>  :CtrlP .<CR>
 
-   	" [ Refresh browser ]------------------------------------------------------
-   	" map <f5> 				:RRB<CR>
+  " [ Reindent ]-------------------------------------------------------------
+  map <F8>        mzgg=G`z<CR>
 
-   	" [ Reindent ]-------------------------------------------------------------
-   	map <F8> 				mzgg=G`z<CR>
-
-   	" [ Convert spaces to tabs ]-----------------------------------------------
-   	" map <leader>````		:%s/    /	/g<CR>
-   	" map <leader>``		:%s/  /	/g<CR>
-
- 	" [ Fold current block ]---------------------------------------------------
- 	" map <F9> za
-	nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-	" vnoremap <Space> zf
-
- 	" [ Toggle paste indent ]--------------------------------------------------
- 	set pastetoggle=<F6>
-
- 	" [ supertab ]-------------------------------------------------------------
-
-	" let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-	" let g:SuperTabLongestHighlight = 1
-	" let g:SuperTabLongestEnhanced = 1
-
-
- 	" [ AutoComplPop ]---------------------------------------------------------
-	" let g:acp_enableAtStartup = 1
-	" let g:acp_ignorecaseOption = 1
-	" let g:acp_behaviorKeywordCommand = "\<C-o>"
-
+  " [ Fold current block ]---------------------------------------------------
+  " map <F9> za
+  nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+  " vnoremap <Space> zf
 " }
 
 " indent_guides {
-	let g:indent_guides_color_change_percent = 5
+  let g:indent_guides_color_change_percent = 5
 " }
 
-" OmniComplete {
-"
-     autocmd FileType scss,sass set omnifunc=csscomplete#CompleteCSS
-"    autocmd FileType html,markdown set omnifunc=htmlcomplete#CompleteTags
-"    autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"    autocmd FileType python set omnifunc=pythoncomplete#Complete
-"    autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-"    autocmd FileType ruby set omnifunc=rubycomplete#Complete
-"    autocmd FileType haskell set omnifunc=necoghc#omnifunc
-"
-"	"autocmd FileType css,sass,scss set iskeyword+=-
-"
-" }
+" neosnippet {
+  let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
 
-		let g:neosnippet#snippets_directory='~/.vim/bundle/sass-compass-neosnippet/snippets'
-
-        " SuperTab like snippets behavior.
-        imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-         \ "\<Plug>(neosnippet_expand_or_jump)"
-         \: pumvisible() ? "\<C-n>" : "\<TAB>"
-        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-         \ "\<Plug>(neosnippet_expand_or_jump)"
-         \: "\<TAB>"
-" neocomplete {
-
- 	if count(g:spf13_bundle_groups, 'neocomplete')
-  		" set completeopt+=longest
-
-		let g:neocomplete#enable_at_startup = 0
-
-		" let g:neocomplete#enable_auto_select = 1
- 		" let g:neocomplete#enable_cursor_hold_i = 1
-        " let g:neocomplete#disable_auto_complete = 1
-
- 		"let g:neocomplete#cursor_hold_i_time = 900
- 		"let g:neocomplete#enable_insert_char_pre = 1
-
-
-
-        " inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-		" inoremap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-		" 	\ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
-		"  	\ "\<CR><C-k>" : "\<TAB>"
-
- 		" For smart TAB completion.
-        "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-        "        \ <SID>check_back_space() ? "\<TAB>" :
-        "        \ neocomplete#start_manual_complete()
-        "function! s:check_back_space() "{{{
-        "    let col = col('.') - 1
-        "    return !col || getline('.')[col - 1]  =~ '\s'
-        "endfunction"}}}
-
- 	endif
+  " SuperTab like snippets behavior.
+  imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)"
+    \: pumvisible() ? "\<C-n>" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)"
+    \: "\<TAB>"
 
 " }
 
-" UnBundle {
-
-	" Unused
-	UnBundle 'godlygeek/csapprox'
-	UnBundle 'honza/vim-snippets'
-	UnBundle 'Lokaltog/vim-easymotion'
-	UnBundle 'majutsushi/tagbar'
-	UnBundle 'mattn/gist-vim'
-	UnBundle 'mattn/webapi-vim'
-	UnBundle 'mbbill/undotree'
-	UnBundle 'quentindecock/vim-cucumber-align-pipes'
-	UnBundle 'spf13/vim-autoclose'
-	UnBundle 'spf13/vim-colors'
-	UnBundle 'spf13/vim-preview'
-	UnBundle 'tpope/vim-abolish'
-	UnBundle 'tpope/vim-cucumber'
-	UnBundle 'vim-colorschemes'
-	UnBundle 'matchit.zip'
-	UnBundle 'amirh/HTML-AutoCloseTag'
-	"UnBundle 'scrooloose/syntastic'
-
-	" Possibile performance droppers
-	UnBundle 'jistr/vim-nerdtree-tabs'
-	UnBundle 'bling/vim-airline'
-	UnBundle 'tpope/vim-fugitive'
-
-" }
-
-
-""	let opt_DimInactiveWin=0
-""	hi Inactive ctermfg=235
-""	fun! ToggleDimInactiveWin()
-""	    if g:opt_DimInactiveWin
-""	        autocmd! DimWindows
-""	        windo syntax clear Inactive
-""	    else
-""	        windo syntax region Inactive start='^' end='$'
-""	        syntax clear Inactive
-""	        augroup DimWindows
-""	            autocmd BufEnter * syntax clear Inactive
-""	            autocmd BufLeave * syntax region Inactive start='^' end='$'
-""	        augroup end
-""	    en
-""	    let g:opt_DimInactiveWin=!g:opt_DimInactiveWin
-""	endfun
-
-" Dim inactive windows using 'colorcolumn' setting
-" This tends to slow down redrawing, but is very useful.
-" Based on https://groups.google.com/d/msg/vim_use/IJU-Vk-QLJE/xz4hjPjCRBUJ
-" XXX: this will only work with lines containing text (i.e. not '~')
-" from
-if exists('+colorcolumn')
-  function! s:DimInactiveWindows()
-    for i in range(1, tabpagewinnr(tabpagenr(), '$'))
-      let l:range = ""
-      if i != winnr()
-        if &wrap
-         " HACK: when wrapping lines is enabled, we use the maximum number
-         " of columns getting highlighted. This might get calculated by
-         " looking for the longest visible line and using a multiple of
-         " winwidth().
-         let l:width=256 " max
-        else
-         let l:width=winwidth(i)
-        endif
-        let l:range = join(range(1, l:width), ',')
-      endif
-      call setwinvar(i, '&colorcolumn', l:range)
-    endfor
-  endfunction
-  augroup DimInactiveWindows
-    au!
-    au WinEnter * call s:DimInactiveWindows()
-    au WinEnter * set cursorline
-    au WinLeave * set nocursorline
-  augroup END
-endif
