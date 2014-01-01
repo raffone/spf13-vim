@@ -24,7 +24,7 @@
 
 " Vim UI {
 
-  " [ Set theme ]------------------------------------------------------------
+  " [ Set theme ]--------------------------------------------------------------
 
   if has('gui_running')
     set transparency=0
@@ -41,7 +41,15 @@
     let g:solarized_visibility="normal"
   endif
 
-  " [ Cursors ]--------------------------------------------------------------
+  " [ Higlight 80th column ]---------------------------------------------------
+
+  if exists('+colorcolumn')
+    set colorcolumn=80
+  else
+    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+  endif
+
+  " [ Cursors ]----------------------------------------------------------------
 
   set gcr=n:hor1-blinkon0
   set gcr+=c-v:blinkon0
@@ -88,7 +96,7 @@
   nnoremap <D-≥>        i<lt>/<C-X><C-O><Esc>
   inoremap <D-≥>        <lt>/<C-X><C-O>
 
-  " [ Allways start from start of word ]-------------------------------------
+  " [ Allways start from start of word ]---------------------------------------
 
   noremap cw          ciw
   noremap dw          diw
@@ -96,12 +104,12 @@
   nnoremap yw         yiw
   nnoremap Y          Y
 
-  " [ Quickjump cursor ]-----------------------------------------------------
+  " [ Quickjump cursor ]-------------------------------------------------------
 
   nnoremap <A-Right>      w
   nnoremap <A-Left>       b
 
-  " [ Select lines ]---------------------------------------------------------
+  " [ Select lines ]-----------------------------------------------------------
 
   nnoremap <S-Right>      vl
   nnoremap <S-Left>       vh
@@ -132,7 +140,7 @@
   inoremap <A-S-Right>    <Esc>vw
   inoremap <A-S-Left>     <Esc>vb
 
-  " [ Move lines ]-----------------------------------------------------------
+  " [ Move lines ]-------------------------------------------------------------
 
   nnoremap <A-Enter>      O<Esc>
 
@@ -145,7 +153,7 @@
   vnoremap <D-C-Up>       :m '<-2<CR>gv=gv
   vnoremap <D-C-Down>     :m '>+1<CR>gv=gv
 
-    " [ Duplicate lines ]------------------------------------------------------
+  " [ Duplicate lines ]--------------------------------------------------------
 
   nnoremap <Leader>dd     "zY"zp
 
@@ -153,39 +161,48 @@
   vnoremap <D-d>        "zy"zP
   inoremap <D-d>        <Esc>"zY"zpi
 
-  " [ Sort lines ]-----------------------------------------------------------
+  " [ Sort lines " ]-----------------------------------------------------------
 
   vnoremap <F5>         :sort<CR>
 
-    " [ Delete lines ]---------------------------------------------------------
+  " [ Delete lines ]-----------------------------------------------------------
 
-  nnoremap <Del>        "_dl
-  nnoremap <D-Del>      "_D
-  nnoremap <A-Del>      "_diw
+  nnoremap <Del>          "_dl
+  nnoremap <D-Del>        "_D
+  nnoremap <A-Del>        "_diw
 
-  inoremap <D-Del>      <Esc>l"_Di
-  inoremap <A-Del>      <Esc>viw"_di
+  inoremap <D-Del>        <Esc>l"_Di
+  inoremap <A-Del>        <Esc>viw"_di
 
-    " [ Comment lines ]---------------------------------------------------------
+  " [ Comment lines " ]--------------------------------------------------------
 
-  nmap <Leader>cc       <plug>NERDCommenterToggle
-  vmap <Leader>cc       <plug>NERDCommenterToggle
+  nnoremap <Leader>cc     <plug>NERDCommenterToggle
+  vnoremap <Leader>cc     <plug>NERDCommenterToggle
 
-  " [ Increase/decrease number ]---------------------------------------------
+  nnoremap <Space>        <plug>NERDCommenterToggle
+  vnoremap <Space>        <plug>NERDCommenterToggle
+  
+  
+  " [ Add single-quote aout word ]---------------------------------------------
+
+  nnoremap '              viwc'<C-R>"'<ESC>
+  vnoremap '              c'<C-R>"'<ESC>
+
+  " [ Increase/decrease number ]-----------------------------------------------
 
   nnoremap <C-Up>         <C-a>
   nnoremap <C-Down>       <C-x>
 
-  " [ Indent ]---------------------------------------------------------------
+  " [ Indent ]-----------------------------------------------------------------
 
   nnoremap <silent> >     >>
   nnoremap <silent> <     <<
 
-  " [ Multiple lines ]-------------------------------------------------------
+  " [ Multiple lines ]---------------------------------------------------------
 
   nnoremap <Leader>gg     :MultipleCursorsFind <C-r><C-w><CR>
 
-  " [ TABS ]-----------------------------------------------------------------
+  " [ TABS ]-------------------------------------------------------------------
 
   nnoremap <Leader>tt     :tabnew<CR>
   nnoremap <Leader>tg     :tabclose<CR>
@@ -197,7 +214,7 @@
   nnoremap <D-A-Left>     :tabp<CR>
   nnoremap <D-A-Right>    :tabn<CR>
 
-  " [ WINDOWS ]--------------------------------------------------------------
+  " [ WINDOWS ]----------------------------------------------------------------
 
   nnoremap <Leader>ww     :vs<CR>
   nnoremap <Leader>ws     :clo<CR>
@@ -216,7 +233,7 @@
   nnoremap <C-A-PageUp>   :vs<CR>
   nnoremap <C-A-PageDown>   :sp<CR>
 
-  " [ Cerca ]----------------------------------------------------------------
+  " [ Cerca ]------------------------------------------------------------------
 
   " Search in file
   nnoremap <D-f>        /
@@ -227,7 +244,7 @@
   " Search current selected text
   vnoremap <C-S-G>      yq/p<cr>
 
-  " [ ctrlp.vim ]------------------------------------------------------------
+  " [ ctrlp.vim ]--------------------------------------------------------------
 
   let g:ctrlp_switch_buffer = 0
   let g:ctrlp_max_depth = 10
@@ -255,12 +272,13 @@
   nnoremap <silent> <Leader>p :CtrlP .<CR>
   noremap <silent> <D-p>  :CtrlP .<CR>
 
-  " [ Reindent ]-------------------------------------------------------------
+  " [ Reindent ]---------------------------------------------------------------
+
   map <F8>        mzgg=G`z<CR>
 
-  " [ Fold current block ]---------------------------------------------------
-  " map <F9> za
-  nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+  " [ Fold current block ]-----------------------------------------------------
+
+  "nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
   " vnoremap <Space> zf
 " }
 
