@@ -14,8 +14,6 @@
   "au FocusLost * :wa
   au FocusLost,TabLeave * call feedkeys("\<Esc>l")
 
-  let sessionman_save_on_exit = 1
-
   set foldmethod=indent
   set foldlevel=20
   set foldlevelstart=20
@@ -27,7 +25,8 @@
   " [ Set theme ]--------------------------------------------------------------
 
   if has('gui_running')
-    set transparency=0
+    set transparency&
+    set lines&
     set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
 
     let base16colorspace=256
@@ -98,11 +97,11 @@
 
   " [ Allways start from start of word ]---------------------------------------
 
-  noremap cw          ciw
-  noremap dw          diw
+  nnoremap cw             "_ciw
+  nnoremap dw             "_diw
 
-  nnoremap yw         yiw
-  nnoremap Y          Y
+  nnoremap yw             yiw
+  nnoremap Y              Y
 
   " [ Quickjump cursor ]-------------------------------------------------------
 
@@ -113,7 +112,7 @@
 
   nnoremap <S-Right>      vl
   nnoremap <S-Left>       vh
-  nnoremap <S-Up>       Vk
+  nnoremap <S-Up>         Vk
   nnoremap <S-Down>       Vj
   nnoremap <D-S-Right>    v$
   nnoremap <D-S-Left>     v^
@@ -121,7 +120,7 @@
   nnoremap <A-S-Right>    vw
   nnoremap <A-S-Left>     vb
 
-  vnoremap <S-Up>       k
+  vnoremap <S-Up>         k
   vnoremap <S-Down>       j
   vnoremap <D-S-Up>       k
   vnoremap <D-S-Down>     j
@@ -132,7 +131,7 @@
 
   inoremap <S-Right>      <Esc>vl
   inoremap <S-Left>       <Esc>vh
-  inoremap <S-Up>       <Esc>vk
+  inoremap <S-Up>         <Esc>vk
   inoremap <S-Down>       <Esc>vj
   inoremap <D-S-Right>    <Esc>v$
   inoremap <D-S-Left>     <Esc>v^
@@ -157,19 +156,22 @@
 
   nnoremap <Leader>dd     "zY"zp
 
-  nnoremap <D-d>        "zY"zp
-  vnoremap <D-d>        "zy"zP
-  inoremap <D-d>        <Esc>"zY"zpi
+  nnoremap <D-d>          "zY"zp
+  vnoremap <D-d>          "zy"zP
+  inoremap <D-d>          <Esc>"zY"zpi
 
   " [ Sort lines " ]-----------------------------------------------------------
 
-  vnoremap <F5>         :sort<CR>
+  vnoremap <F5>           :sort<CR>
 
   " [ Delete lines ]-----------------------------------------------------------
 
   nnoremap <Del>          "_dl
   nnoremap <D-Del>        "_D
   nnoremap <A-Del>        "_diw
+
+  vnoremap cc             "_c<left><right>
+  vnoremap cw             "_c<left><right>
 
   inoremap <D-Del>        <Esc>l"_Di
   inoremap <A-Del>        <Esc>viw"_di
@@ -231,18 +233,18 @@
   " nnoremap <C-A-Home>     :ZoomWin<CR>
 
   nnoremap <C-A-PageUp>   :vs<CR>
-  nnoremap <C-A-PageDown>   :sp<CR>
+  nnoremap <C-A-PageDown> :sp<CR>
 
   " [ Cerca ]------------------------------------------------------------------
 
   " Search in file
-  nnoremap <D-f>        /
+  nnoremap <D-f>          /
 
   " Search inside project
-  nnoremap <D-F>        :Ack<Space>
+  nnoremap <D-F>          :Ack<Space>
 
   " Search current selected text
-  vnoremap <C-S-G>      yq/p<cr>
+  vnoremap <C-S-G>        yq/p<cr>
 
   " [ ctrlp.vim ]--------------------------------------------------------------
 
@@ -274,7 +276,7 @@
 
   " [ Reindent ]---------------------------------------------------------------
 
-  map <F8>        mzgg=G`z<CR>
+  map <F8>                mzgg=G`z<CR>
 
   " [ Fold current block ]-----------------------------------------------------
 
@@ -284,6 +286,10 @@
 
 " indent_guides {
   let g:indent_guides_color_change_percent = 5
+" }
+
+" sessionman {
+  let sessionman_save_on_exit = 1
 " }
 
 " neosnippet {
