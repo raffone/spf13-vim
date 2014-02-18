@@ -1,6 +1,6 @@
 " General {
 
-  "set bufhidden=delete
+  set bufhidden=delete
 
   set nospell
   set visualbell
@@ -10,13 +10,13 @@
 
   set linebreak
   set wrap
-
+  
   "au FocusLost * :wa
   au FocusLost,TabLeave * call feedkeys("\<Esc>l")
 
-  set foldmethod=indent
-  set foldlevel=20
-  set foldlevelstart=20
+  "set scrolljump=0                " Lines to scroll when cursor leaves screen
+  "set scrolloff=9999                 " Minimum lines to keep above and below cursor
+
 
 " }
 
@@ -170,21 +170,23 @@
   nnoremap <D-Del>        "_D
   nnoremap <A-Del>        "_diw
 
-  vnoremap cc             "_c<left><right>
-  vnoremap cw             "_c<left><right>
+  "vnoremap cc             "_c<left><right>
+  "vnoremap cw             "_c<left><right>
 
   inoremap <D-Del>        <Esc>l"_Di
   inoremap <A-Del>        <Esc>viw"_di
 
-  " [ Comment lines " ]--------------------------------------------------------
+  " [ Change lines ]-----------------------------------------------------------
+
+  " [ Comment lines ]----------------------------------------------------------
 
   nnoremap <Leader>cc     <plug>NERDCommenterToggle
   vnoremap <Leader>cc     <plug>NERDCommenterToggle
 
   nnoremap <Space>        <plug>NERDCommenterToggle
   vnoremap <Space>        <plug>NERDCommenterToggle
-  
-  
+
+
   " [ Add single-quote aout word ]---------------------------------------------
 
   nnoremap '              viwc'<C-R>"'<ESC>
@@ -269,7 +271,10 @@
     \ 'AcceptSelection("t")': ['<s-cr>'],
     \ }
 
-  unlet g:ctrlp_user_command
+  if exists('g:ctrlp_user_command')
+    unlet g:ctrlp_user_command
+  endif
+
 
   nnoremap <silent> <Leader>p :CtrlP .<CR>
   noremap <silent> <D-p>  :CtrlP .<CR>
@@ -282,6 +287,17 @@
 
   "nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
   " vnoremap <Space> zf
+" }
+
+" emmet.vim {
+  function! s:zen_html_tab()
+    let line = getline('.')
+    if match(line, '<.*>') >= 0
+      return "\<c-y>n"
+    endif
+    return "\<c-y>,"
+  endfunction
+  autocmd FileType html imap <buffer><expr><tab> <sid>zen_html_tab()
 " }
 
 " indent_guides {
