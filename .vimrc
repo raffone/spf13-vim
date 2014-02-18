@@ -118,13 +118,11 @@
     endif
 
     " Setting up the directories {
-        if !exists('g:spf13_initialize_directories')
-            set backup                  " Backups are nice ...
-            if has('persistent_undo')
-                set undofile                " So is persistent undo ...
-                set undolevels=1000         " Maximum number of changes that can be undone
-                set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
-            endif
+        set backup                  " Backups are nice ...
+        if has('persistent_undo')
+            set undofile                " So is persistent undo ...
+            set undolevels=1000         " Maximum number of changes that can be undone
+            set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
         endif
 
         " To disable views add the following to your .vimrc.before.local file:
@@ -265,33 +263,44 @@
     noremap j gj
     noremap k gk
 
-    " Same for 0, home, end, etc
-    function! WrapRelativeMotion(key, ...)
-        let vis_sel=""
-        if a:0
-            let vis_sel="gv"
-        endif
-        if &wrap
-            execute "normal!" vis_sel . "g" . a:key
-        else
-            execute "normal!" vis_sel . a:key
-        endif
-    endfunction
+    " End/Start of line motion keys act relative to row/wrap width in the
+    " presence of `:set wrap`, and relative to line for `:set nowrap`.
+    " Default vim behaviour is to act relative to text line in both cases
+    " If you prefer the default behaviour, add the following to your
+    " .vimrc.before.local file:
+    "   let g:spf13_no_wrapRelMotion = 1
+    if !exists('g:spf13_no_wrapRelMotion')
+        " Same for 0, home, end, etc
+        function! WrapRelativeMotion(key, ...)
+            let vis_sel=""
+            if a:0
+                let vis_sel="gv"
+            endif
+            if &wrap
+                execute "normal!" vis_sel . "g" . a:key
+            else
+                execute "normal!" vis_sel . a:key
+            endif
+        endfunction
 
-    " Map g* keys in Normal, Operator-pending, and Visual+select (over written
-    " below) modes
-    noremap $ :call WrapRelativeMotion("$")<CR>
-    noremap <End> :call WrapRelativeMotion("$")<CR>
-    noremap 0 :call WrapRelativeMotion("0")<CR>
-    noremap <Home> :call WrapRelativeMotion("0")<CR>
-    noremap ^ :call WrapRelativeMotion("^")<CR>
-    " Over write the Visual+Select mode mappings to ensure correct mode is
-    " passed to WrapRelativeMotion
-    vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
-    vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
-    vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
-    vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR>
-    vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
+        " Map g* keys in Normal, Operator-pending, and Visual+select
+        noremap $ :call WrapRelativeMotion("$")<CR>
+        noremap <End> :call WrapRelativeMotion("$")<CR>
+        noremap 0 :call WrapRelativeMotion("0")<CR>
+        noremap <Home> :call WrapRelativeMotion("0")<CR>
+        noremap ^ :call WrapRelativeMotion("^")<CR>
+        " Overwrite the operator pending $/<End> mappings from above
+        " to force inclusive motion with :execute normal!
+        onoremap $ v:call WrapRelativeMotion("$")<CR>
+        onoremap <End> v:call WrapRelativeMotion("$")<CR>
+        " Overwrite the Visual+select mode mappings from above
+        " to ensure the correct vis_sel flag is passed to function
+        vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
+    endif
 
     " The following two lines conflict with moving to top and
     " bottom of the screen
@@ -362,13 +371,6 @@
     " http://stackoverflow.com/a/8064607/127816
     vnoremap . :normal .<CR>
 
-    " Fix home and end keybindings for screen, particularly on mac
-    " - for some reason this fixes the arrow keys too. huh.
-    "map [F $
-    "imap [F $
-    "map [H g0
-    "imap [H g0
-
     " For when you forget to sudo.. Really Write the file.
     cmap w!! w !sudo tee % >/dev/null
 
@@ -410,28 +412,32 @@
     " }
 
     " OmniComplete {
-        if has("autocmd") && exists("+omnifunc")
-            autocmd Filetype *
-                \if &omnifunc == "" |
-                \setlocal omnifunc=syntaxcomplete#Complete |
-                \endif
+        " To disable omni complete, add the following to your .vimrc.before.local file:
+        "   let g:spf13_no_omni_complete = 1
+        if !exists('g:spf13_no_omni_complete')
+            if has("autocmd") && exists("+omnifunc")
+                autocmd Filetype *
+                    \if &omnifunc == "" |
+                    \setlocal omnifunc=syntaxcomplete#Complete |
+                    \endif
+            endif
+
+            hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
+            hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+            hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+
+            " Some convenient mappings
+            inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+            inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+            inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+            inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+            inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+            inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+
+            " Automatically open and close the popup menu / preview window
+            au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+            set completeopt=menu,preview,longest
         endif
-
-        hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-        hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-        hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-
-        " Some convenient mappings
-        inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
-        inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-        inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-        inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-        inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-        inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
-
-        " Automatically open and close the popup menu / preview window
-        au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-        set completeopt=menu,preview,longest
     " }
 
     " Ctags {
@@ -457,7 +463,7 @@
     " }
 
     " NerdTree {
-        map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+        map <C-e> <plug>NERDTreeTabsToggle<CR>
         map <leader>e :NERDTreeFind<CR>
         nmap <leader>nt :NERDTreeFind<CR>
 
@@ -572,7 +578,7 @@
         nnoremap <silent> <leader>gi :Git add -p %<CR>
         nnoremap <silent> <leader>gg :SignifyToggle<CR>
     "}
-    
+
     " YouCompleteMe {
         if count(g:spf13_bundle_groups, 'youcompleteme')
             let g:acp_enableAtStartup = 0
@@ -584,7 +590,7 @@
             let g:UltiSnipsExpandTrigger = '<C-j>'
             let g:UltiSnipsJumpForwardTrigger = '<C-j>'
             let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-            
+
             " Enable omni completion.
             autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
             autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -602,8 +608,10 @@
             endif
 
             " For snippet_complete marker.
-            if has('conceal')
-                set conceallevel=2 concealcursor=i
+            if !exists("g:spf13_no_conceal")
+                if has('conceal')
+                    set conceallevel=2 concealcursor=i
+                endif
             endif
 
             " Disable the neosnippet preview candidate window
@@ -772,7 +780,9 @@
             let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
     " }
     " Normal Vim omni-completion {
-        else
+    " To disable omni complete, add the following to your .vimrc.before.local file:
+    "   let g:spf13_no_omni_complete = 1
+        elseif !exists('g:spf13_no_omni_complete')
             " Enable omni-completion.
             autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
             autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -879,7 +889,6 @@
 " Functions {
 
     " Initialize directories {
-    if !exists('g:spf13_initialize_directories')
     function! InitializeDirectories()
         let parent = $HOME
         let prefix = 'vim'
@@ -920,7 +929,6 @@
         endfor
     endfunction
     call InitializeDirectories()
-    endif
     " }
 
     " Initialize NERDTree as needed {
