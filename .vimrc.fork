@@ -74,7 +74,7 @@
 
   nmap <F9> mz:execute TabToggle()<CR>'z
 
-  autocmd FileType css,html,sass,scss,coffee autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+  autocmd FileType css,html,sass,scss,coffee,ls autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 " }
 
 " Key (re)Mappings {
@@ -260,6 +260,7 @@
   set wildignore+=*.DS_Store
   set wildignore+=*/db/*
   set wildignore+=*/node_modules/*
+  set wildignore+=*/bower_components/*
   set wildignore+=*/.sass-cache/*
   set wildignore+=*/tmp/*
   set wildignore+=*/vendor/*
@@ -286,8 +287,13 @@
   " [ Fold current block ]-----------------------------------------------------
 
   "nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-  " vnoremap <Space> zf
+    " vnoremap <Space> zf
+  " }
+
+" OmniComplete {
+  "autocmd FileType scss set omnifunc=csscomplete#CompleteCSS
 " }
+
 
 " emmet.vim {
   function! s:zen_html_tab()

@@ -14,7 +14,7 @@
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'osyo-manga/vim-over'
     Bundle 'pangloss/vim-javascript'
-    Bundle 'puppetlabs/puppet-syntax-vim'
+    Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
     Bundle 'python.vim'
     Bundle 'raffone/base16-default-bright'
     Bundle 'raffone/replace'
@@ -31,6 +31,10 @@
     Bundle 'vim-scripts/Rename2'
     Bundle 'vim-scripts/sessionman.vim'
     Bundle 'vim-scripts/smarty-syntax'
+    Bundle 'skwp/vim-html-escape'
+    Bundle 'wavded/vim-stylus'
+    Bundle 'gkz/vim-ls'
+    Bundle 'mustache/vim-mustache-handlebars'
 
     if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
       Bundle 'Lokaltog/powerline', {'rtp':'/powerline/bindings/vim'}
@@ -39,7 +43,10 @@
     endif
 
     Bundle 'mileszs/ack.vim'
-    let g:ackprg="/opt/boxen/homebrew/bin/ack -H --nogroup --nocolor --column "
+    let g:ackprg="/opt/boxen/homebrew/bin/ack -H -Q --nogroup --nocolor --column "
+
+    let g:spf13_bundle_groups=[]
+
 
 " }
 
