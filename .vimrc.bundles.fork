@@ -35,6 +35,7 @@
     Bundle 'wavded/vim-stylus'
     Bundle 'gkz/vim-ls'
     Bundle 'mustache/vim-mustache-handlebars'
+    Bundle 'elzr/vim-json'
 
     if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
       Bundle 'Lokaltog/powerline', {'rtp':'/powerline/bindings/vim'}
