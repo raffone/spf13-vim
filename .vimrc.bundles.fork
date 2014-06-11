@@ -17,8 +17,6 @@
     Bundle 'mustache/vim-mustache-handlebars'
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'osyo-manga/vim-over'
-    Bundle 'pangloss/vim-javascript'
-    Bundle 'pangloss/vim-javascript'
     Bundle 'python.vim'
     Bundle 'raffone/base16-default-bright'
     Bundle 'raffone/replace'
