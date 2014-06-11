@@ -45,8 +45,8 @@
       Bundle 'Lokaltog/vim-powerline'
     endif
 
-    Bundle 'mileszs/ack.vim'
-    let g:ackprg="/opt/boxen/homebrew/bin/ack -H -Q --nogroup --nocolor --column "
+    "Bundle 'mileszs/ack.vim'
+    let g:ackprg="/usr/local/bin/ack -H -Q --nogroup --nocolor --column "
 
     let g:spf13_bundle_groups=[]
 
