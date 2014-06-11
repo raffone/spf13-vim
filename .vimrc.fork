@@ -285,6 +285,12 @@
 
   map <F8>                mzgg=G`z<CR>
 
+  " [ Nerdtree ]---------------------------------------------------------------
+
+  let g:NERDTreeMapOpenSplit = '<c-cr>'
+  let g:NERDTreeMapOpenVSplit = '<a-cr>'
+  let g:NERDTreeMapOpenInTab = '<s-cr>'
+
   " [ Fold current block ]-----------------------------------------------------
 
   "nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
